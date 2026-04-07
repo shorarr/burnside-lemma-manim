@@ -27,7 +27,7 @@ class HexDots(VGroup):
             color=self.polygon_color
         )
 
-        # vertices alignment
+        # Vertices alignment
         vertices = self.hexagon.get_vertices()
         start_vertex = sorted(vertices, key=lambda p: (-p[1], p[0]))[0]
 
@@ -62,6 +62,9 @@ class HexDots(VGroup):
     # Painting
 
     def set_coloring(self, colors):
+
+        if not isinstance(colors, (list, tuple)):
+            colors = [colors]
 
         if len(colors) == 1:
             colors = colors * 6
@@ -127,9 +130,9 @@ class HexDots(VGroup):
                 rotated = coloring[k:] + coloring[:k]
                 orbit.append(rotated)
 
-            reversed_col = coloring[::-1]
+            reversed_coloring = coloring[::-1]
             for k in range(6):
-                reflected = reversed_col[k:] + reversed_col[:k]
+                reflected = reversed_coloring[k:] + reversed_coloring[:k]
                 orbit.append(reflected)
 
             canonical = min(orbit)

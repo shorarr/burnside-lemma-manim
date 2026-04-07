@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from config import *
-from objects.hexdots import HexDots
+from my_manim_plugins import HexDots
 
 
 class Sc1(Scene):

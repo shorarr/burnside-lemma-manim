@@ -92,12 +92,7 @@ class Sc7(Scene):
         self.wait(0.5)
         self.play(hex_dots.animate.scale(1.25))
 
-        # Перебор всех раскрасок
-        colorings = list(hex_dots.generate_unique_colorings())
 
-        def update_colors(mob, alpha):
-            index = int(alpha * (len(colorings) - 1))
-            mob.set_coloring(colorings[index])
 
         self.wait(0.5)
 
@@ -106,6 +101,13 @@ class Sc7(Scene):
         xe_math.to_edge(DOWN, buff=1)
 
         self.play(Write(xe_math))
+
+        # Перебор всех раскрасок
+        colorings = list(hex_dots.generate_unique_colorings())
+
+        def update_colors(mob, alpha):
+            index = int(alpha * (len(colorings) - 1))
+            mob.set_coloring(colorings[index])
 
         self.play(
             UpdateFromAlphaFunc(
