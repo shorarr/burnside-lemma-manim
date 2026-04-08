@@ -69,9 +69,6 @@ class HexDots(VGroup):
         if len(colors) == 1:
             colors = colors * 6
 
-        elif 2 <= len(colors) <= 5:
-            raise ValueError("Нужно задать либо 1 цвет, либо все 6")
-
         elif len(colors) != 6:
             raise ValueError("Количество цветов должно быть 1 или 6")
 
@@ -120,26 +117,37 @@ class HexDots(VGroup):
 
     def generate_unique_colorings(self):
 
-        seen = set()
+        colors = sorted(self.available_colors)
+        m = len(self.dots)
+        coloring = [None] * m
 
-        for coloring in product(self.available_colors, repeat=6):
+        def is_prefix_unique(pos):
 
-            orbit = []
+            prefix = coloring[:pos + 1]
 
-            for k in range(6):
-                rotated = coloring[k:] + coloring[:k]
-                orbit.append(rotated)
+            for shift in range(1, pos + 1):
+                rotated = prefix[shift:] + prefix[:shift]
+                if rotated < prefix:
+                    return False
 
-            reversed_coloring = coloring[::-1]
-            for k in range(6):
-                reflected = reversed_coloring[k:] + reversed_coloring[:k]
-                orbit.append(reflected)
+            reversed_prefix = prefix[::-1]
+            for shift in range(pos + 1):
+                reflected = reversed_prefix[shift:] + reversed_prefix[:shift]
+                if reflected < prefix:
+                    return False
+            return True
 
-            canonical = min(orbit)
+        def create_coloring(pos):
+            if pos == m:
+                yield list(coloring)
+                return
 
-            if canonical not in seen:
-                seen.add(canonical)
-                yield list(canonical)
+            for color in colors:
+                coloring[pos] = color
+                if is_prefix_unique(pos):
+                    yield from create_coloring(pos + 1)
+
+        yield from create_coloring(0)
 
     # Rotation and reflection
 
