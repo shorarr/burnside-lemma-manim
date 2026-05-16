@@ -40,7 +40,7 @@ class HexDots(VGroup):
 
         # clockwise
         ordered_vertices = ordered_vertices[::-1]
-        ordered_vertices = ordered_vertices[1:] + ordered_vertices[:1]
+        ordered_vertices = ordered_vertices[5:] + ordered_vertices[:5]
 
         # Dots
         self.dots = VGroup()
@@ -91,7 +91,7 @@ class HexDots(VGroup):
             direction = direction / np.linalg.norm(direction)
 
             label = MathTex(str(i + 1)).scale(scale)
-            label.move_to(dot.get_center() + direction * buff * 5)
+            label.move_to(dot.get_center() )
 
             labels.add(label)
 
@@ -115,42 +115,65 @@ class HexDots(VGroup):
 
     # Get all unique colorings
 
+    # def generate_unique_colorings(self):
+    #
+    #     colors = sorted(self.available_colors)
+    #     m = len(self.dots)
+    #     coloring = [None] * m
+    #
+    #     def is_prefix_unique(pos):
+    #
+    #         prefix = coloring[:pos + 1]
+    #
+    #         for shift in range(1, pos + 1):
+    #             rotated = prefix[shift:] + prefix[:shift]
+    #             if rotated < prefix:
+    #                 return False
+    #
+    #         reversed_prefix = prefix[::-1]
+    #         for shift in range(pos + 1):
+    #             reflected = reversed_prefix[shift:] + reversed_prefix[:shift]
+    #             if reflected < prefix:
+    #                 return False
+    #         return True
+    #
+    #     def create_coloring(pos):
+    #         if pos == m:
+    #             yield list(coloring)
+    #             return
+    #
+    #         for color in colors:
+    #             coloring[pos] = color
+    #             if is_prefix_unique(pos):
+    #                 yield from create_coloring(pos + 1)
+    #
+    #     yield from create_coloring(0)
+
+    # Возвращает лексикографически минимальный элемент орбиты D6
+    @staticmethod
+    def orbit_min(coloring, n=6):
+        c = list(coloring)
+        candidates = []
+        for k in range(n):
+            # поворот
+            candidates.append(tuple(c[(i + k) % n] for i in range(n)))
+            # отражение
+            candidates.append(tuple(c[(-i + k) % n] for i in range(n)))
+        return min(candidates)
+
+    # Возвращает список уникальных раскрасок
     def generate_unique_colorings(self):
-
         colors = sorted(self.available_colors)
-        m = len(self.dots)
-        coloring = [None] * m
+        n = len(self.dots)
 
-        def is_prefix_unique(pos):
-
-            prefix = coloring[:pos + 1]
-
-            for shift in range(1, pos + 1):
-                rotated = prefix[shift:] + prefix[:shift]
-                if rotated < prefix:
-                    return False
-
-            reversed_prefix = prefix[::-1]
-            for shift in range(pos + 1):
-                reflected = reversed_prefix[shift:] + reversed_prefix[:shift]
-                if reflected < prefix:
-                    return False
-            return True
-
-        def create_coloring(pos):
-            if pos == m:
-                yield list(coloring)
-                return
-
-            for color in colors:
-                coloring[pos] = color
-                if is_prefix_unique(pos):
-                    yield from create_coloring(pos + 1)
-
-        yield from create_coloring(0)
+        seen = set()
+        for coloring in product(colors, repeat=n):
+            canon = self.orbit_min(coloring, n)
+            if canon not in seen:
+                seen.add(canon)
+                yield list(canon)
 
     # Rotation and reflection
-
     def animate_rotation(self, angle=PI/3, run_time=2):
         return Rotate(self, angle=angle, run_time=run_time)
 

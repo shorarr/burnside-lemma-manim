@@ -1,12 +1,12 @@
 from manim import *
 
-# Общие настройки
+# Global
 
 config.pixel_width = 1920
 config.pixel_height = 1080
 config.frame_rate = 60
 
-# Цвета
+# Colors
 
 config.background_color = BLACK
 PRIMARY_COLOR = WHITE
@@ -17,12 +17,12 @@ DOT_BLUE = '#2b65ed'
 
 DOT_COLORS = [DOT_RED, DOT_GREEN, DOT_BLUE]
 
-# геометрия
+# Geometry
 
 HEX_RADIUS = 2.1
 DOT_RADIUS = 0.30
 
-# Текст
+# Text
 
 DEFAULT_FONT_SIZE = 24
 FORMULA_FONT_SIZE = 48

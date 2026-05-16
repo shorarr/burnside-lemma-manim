@@ -20,7 +20,7 @@ class Sc2(Scene):
         self.wait(1)
 
         # шестиугольник
-        colors=[DOT_BLUE, DOT_RED, DOT_RED, DOT_BLUE, DOT_RED, DOT_RED]
+        colors=[DOT_RED, DOT_RED, DOT_BLUE, DOT_RED, DOT_RED, DOT_BLUE]
 
         hex_left = HexDots(colors)
         hex_right = HexDots(colors)
@@ -79,7 +79,7 @@ class Sc2(Scene):
         self.wait(1)
         self.play(FadeOut(axis),FadeOut(text_equal2))
         self.play(
-            Rotate(hex_right, -PI/2),
+            Rotate(hex_right, -PI/3),
             run_time=2
         )
 

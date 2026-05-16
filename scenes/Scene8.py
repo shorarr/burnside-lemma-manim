@@ -22,7 +22,7 @@ class Sc8(Scene):
 
         # основная формула
         formula = MathTex(
-            r"e = (123456)"
+            r"\tau = (123456)"
         )
 
         formula.next_to(title, DOWN, buff=0.5)

@@ -128,3 +128,5 @@ class Sc7(Scene):
 
         self.play(FadeIn(final_text))
         self.wait(2)
+
+        self.clear()
