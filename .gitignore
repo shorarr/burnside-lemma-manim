@@ -40,3 +40,5 @@ config_local.py
 
 *.tmp
 *.swp
+
+main.py
