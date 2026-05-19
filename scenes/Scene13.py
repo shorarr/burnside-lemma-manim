@@ -14,7 +14,7 @@ class Sc13(Scene):
 
     def construct(self):
 
-        # ---------- Заголовок ----------
+        # Заголовок
         title = Text(
             "Подсчет по лемме Бернсайда",
             font_size=36
@@ -23,14 +23,14 @@ class Sc13(Scene):
         self.play(Write(title))
         self.wait(0.5)
 
-        # ---------- Таблица ----------
+        # Таблица
         table = action_table.scale(0.4).to_edge(DOWN, buff=0.5)
 
         self.play(FadeIn(table))
         self.wait(1)
         self.play(FadeOut(title))
 
-        # ---------- Шестиугольник ----------
+        # Шестиугольник
         hex_dots = HexDots(
             dot_colors=DOT_COLORS,
             radius=HEX_RADIUS,
@@ -63,7 +63,6 @@ class Sc13(Scene):
         hex_g = VGroup(hex_dots)
         hex_g.save_state()
 
-        # ---------- Удобный доступ к ячейкам ----------
         table1, table2 = action_table
 
         cells1 = table1.get_entries()
@@ -72,8 +71,6 @@ class Sc13(Scene):
         # индексы:
         # 0–6 первая строка
         # 7–13 вторая строка
-
-        # ---------- ФУНКЦИИ ДЕЙСТВИЙ ----------
 
         def do_rotation(angle):
             self.play(
@@ -87,7 +84,7 @@ class Sc13(Scene):
                 run_time=1
             )
 
-        # ---------- ПОВОРОТЫ ----------
+        # Повороты
 
         rotations = [
             (1, 0),          # e
@@ -156,7 +153,7 @@ class Sc13(Scene):
                 )
 
 
-        # ---------- ФИНАЛЬНАЯ ФОРМУЛА ----------
+        # финальная формула
         self.play(FadeOut(hex_g, labels, old_labels, axis))
         self.play(table.animate.to_edge(UP, buff=1))
         formula = MathTex(

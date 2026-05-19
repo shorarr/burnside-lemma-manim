@@ -11,7 +11,7 @@ class Sc14(Scene):
 
     def construct(self):
 
-        # --- Вопрос ---
+        # Вопрос
         question = Text(
             "Изначальная задача: сколько различных бус можно составить\n"
             "из 6 бусинок, если каждая может быть красной, синей или зелёной?\n",
@@ -24,7 +24,7 @@ class Sc14(Scene):
         self.play(FadeOut(question))
         self.wait(0.3)
 
-        # --- Центральный шестиугольник ---
+        # Основной шестиугольник
         hex_main = HexDots(dot_colors=DOT_COLORS, radius=HEX_RADIUS, dot_radius=DOT_RADIUS)
         hex_main.set_coloring(DOT_BLUE)
         hex_main.scale(0.8)
@@ -33,7 +33,7 @@ class Sc14(Scene):
         self.play(FadeIn(hex_main))
         self.wait(0.3)
 
-        # --- Быстрый перебор всех раскрасок на центральном шестиугольнике ---
+        # Перебор расккрасок
         colorings = list(hex_main.generate_unique_colorings())  # 92 раскраски
 
         def update_colors(mob, alpha):
@@ -51,16 +51,17 @@ class Sc14(Scene):
 
         self.wait(0.3)
 
-        COLS = 12          # 13 колонок => 8 строк (92 = 13*7 + 1)
-        AVAILABLE_WIDTH = 13.0   # чуть меньше полного экрана
-        AVAILABLE_HEIGHT = 5.8   # высота под сетку
+        # параметры для расположения всех шестиугольников
+        COLS = 12
+        AVAILABLE_WIDTH = 13.0
+        AVAILABLE_HEIGHT = 5.8
 
         rows = (len(colorings) + COLS - 1) // COLS  # = 8
 
         H_SPACING = AVAILABLE_WIDTH / (COLS - 1)
         V_SPACING = AVAILABLE_HEIGHT / (rows - 1)
 
-        # Масштаб: берём меньшее из двух направлений с небольшим запасом
+        # Масштаб
         SMALL_SCALE = min(H_SPACING, V_SPACING) * 0.13
 
         start_x = -AVAILABLE_WIDTH / 2
@@ -82,10 +83,9 @@ class Sc14(Scene):
             ]))
             small_hexes.add(h)
 
-        # Убираем центральный шестиугольник, показываем сетку
         self.play(FadeOut(hex_main))
 
-        # Появление по очереди (lag_ratio даёт эффект «волны»)
+        # Появление по очереди
         self.play(
             LaggedStart(
                 *[FadeIn(h) for h in small_hexes],
@@ -96,7 +96,7 @@ class Sc14(Scene):
 
         self.wait(0.5)
 
-        # --- Ответ ---
+        # Ответ
         answer = Text(
             "Ответ: 92 уникальных раскраски (комбинации бус)",
             font_size=30
@@ -105,7 +105,7 @@ class Sc14(Scene):
         self.play(Write(answer))
         self.wait(1.5)
 
-        # --- Вывод ---
+        # Вывод
         conclusion = Text(
             "Это и есть применение леммы Бернсайда.",
             font_size=28
