@@ -11,7 +11,7 @@ class Sc6(Scene):
 
         # Заголовок
         title = Text(
-            "Идея Бернсайда",
+            "Применение Леммы Бернсайда к задаче о раскрасках",
             font_size=40
         ).to_edge(UP)
 
@@ -59,27 +59,27 @@ class Sc6(Scene):
         sum_part = right_formula[1]  # сумма
         xg_part = right_formula[2]  # |X^g|
 
-        g_math = MathTex(r"|G|")
-        g_text = Text(" — число преобразований", font_size=26)
-        g_caption = VGroup(g_math, g_text).arrange(RIGHT, buff=0.2)
+        g_math = MathTex(r"|D12|")
+        #g_text = Text(" — число преобразований", font_size=26)
+        #g_caption = VGroup(g_math, g_text).arrange(RIGHT, buff=0.2)
 
         sum_text = Text("Cуммируем по всем преобразованиям", font_size=26)
 
         xg_math = MathTex(r"|X^g|")
-        xg_text = Text(" — число неподвижных раскрасок", font_size=26)
+        xg_text = Text(" — число одинаковых раскрасок", font_size=26)
         xg_caption = VGroup(xg_math, xg_text).arrange(RIGHT, buff=0.2)
 
         # анимация
         self.play(FadeOut(caption_lines))
         self.play(formula_group.animate.next_to(title, DOWN, buff=1))
 
-        g_caption.next_to(formula_group, DOWN, buff=0.5)
-        sum_text.next_to(g_caption, DOWN, buff=0.5)
+        g_math.next_to(formula_group, DOWN, buff=0.5)
+        sum_text.next_to(g_math, DOWN, buff=0.5)
         xg_caption.next_to(sum_text, DOWN, buff=0.5)
 
         # |G|
         self.play(frac_part.animate.set_color(YELLOW))
-        self.play(FadeIn(g_caption))
+        self.play(FadeIn(g_math))
         self.wait(0.5)
         self.play(frac_part.animate.set_color(WHITE))
 

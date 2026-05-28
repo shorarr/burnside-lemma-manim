@@ -214,7 +214,7 @@ class Sc11(Scene):
             counter += 1
 
         # Объяснение
-        text_fixed = Text("2 неподвижные точки, 2 пары точек", font_size=28).to_edge(DOWN)
+        text_fixed = Text("2 неподвижные точки", font_size=28).to_edge(DOWN)
         self.play(FadeIn(text_fixed))
         self.wait(2)
 
@@ -239,4 +239,4 @@ class Sc11(Scene):
 
         self.wait(2)
 
-        self.clear()
+        self.play(*[FadeOut(mob) for mob in self.mobjects])

@@ -20,8 +20,21 @@ class Sc13(Scene):
             font_size=36
         ).to_edge(UP)
 
+        # Лемма Бернсайда
+        lemma = Paragraph(
+            "Лемма Бернсайда\n"
+            "число уникальных комбинаций равно среднему числу объектов,\n"
+            "которые не меняются при каждом возможном действии (повороте/отражении)",
+            font_size=24,
+            color=PRIMARY_COLOR,
+            alignment="center",
+            line_spacing=1.5
+        ).to_edge(UP, buff=1)
+        lemma[0].scale(1.5)
+
         self.play(Write(title))
         self.wait(0.5)
+
 
         # Таблица
         table = action_table.scale(0.4).to_edge(DOWN, buff=0.5)
@@ -154,8 +167,10 @@ class Sc13(Scene):
 
 
         # финальная формула
-        self.play(FadeOut(hex_g, labels, old_labels, axis))
-        self.play(table.animate.to_edge(UP, buff=1))
+        self.play(FadeOut(hex_g, labels, old_labels, axis, table))
+        #self.play(table.animate.to_edge(UP, buff=1))
+        self.play(Write(lemma))
+        self.wait(3)
         formula = MathTex(
             r"\frac{1}{12}\Big(",
             r"3^6",
@@ -177,7 +192,7 @@ class Sc13(Scene):
 
 
 
-        final_text = Text("92 уникальные раскраски", font_size=24)
+        final_text = Text("92 различные раскраски", font_size=24)
         final_text.to_edge( DOWN, buff=1)
 
         self.play(Write(result))

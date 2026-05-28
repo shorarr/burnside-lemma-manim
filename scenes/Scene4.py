@@ -21,7 +21,7 @@ class Sc4(Scene):
         title.to_edge(UP)
 
         subtitle = Text(
-            "(зеркальные отражения и повороты)",
+            "Диэдральная группа D12",
             font_size=28
         ).next_to(title, DOWN)
 
@@ -67,7 +67,7 @@ class Sc4(Scene):
 
         # Упрощение
         group_size = MathTex(r"|G| = 12").scale(1.5)
-        group_size_caption = Text("Количество действий группы", font_size=28)
+        group_size_caption = Text("Порядок группы (количество элементов)", font_size=28)
         g_size = VGroup(group_size, group_size_caption).arrange(DOWN, buff=0.6)
         group_size.move_to(ORIGIN)
 
@@ -77,7 +77,7 @@ class Sc4(Scene):
         )
 
         self.wait(2)
-        self.play(group_full.animate.scale(0.8).to_edge(DOWN, buff=0.8))
+        self.play(group_full.animate.scale(0.8).to_edge(DOWN, buff=1.5))
 
         # Заголовок 2
         table_title = Text(
@@ -95,6 +95,13 @@ class Sc4(Scene):
         table.next_to(table_title, DOWN, buff=0.4)
 
         self.play(FadeIn(table))
+
+        description = Text(
+            "Все элементы группы D12 и их запись в циклическом виде",
+            font_size=32
+        ).to_edge(DOWN, buff=1.5)
+
+        self.play(FadeOut(group_full, run_time=1), FadeIn(description, run_time=1))
 
         self.wait(3)
         self.play(*[FadeOut(mob) for mob in self.mobjects])

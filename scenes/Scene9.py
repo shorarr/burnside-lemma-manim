@@ -190,6 +190,13 @@ class Sc9(Scene):
         self.play(Create(triangle_arrows_green))
         self.wait(0.5)
 
+        cycletxt = Text(
+            "2 независимых цикла",
+            font_size=28
+        ).to_edge(DOWN)
+
+        self.play(FadeIn(cycletxt))
+
         for _ in range(1):
             self.play(
                 Rotate(hex_dots, angle=-2 * PI / 3),
@@ -205,6 +212,8 @@ class Sc9(Scene):
             font_size=28
         ).to_edge(DOWN)
 
+        self.play(FadeOut(cycletxt))
+
         self.play(FadeOut(triangle_arrows_green))
         hex_dots.set_coloring([DOT_RED, DOT_BLUE, DOT_RED, DOT_BLUE, DOT_RED, DOT_BLUE])
         triangle_arrows_green.set_color(WHITE)
@@ -214,11 +223,10 @@ class Sc9(Scene):
 
         # рандомный цикл 1
         for _ in range(5):
+            c = hex_dots.dots[0].get_color()
+            new_c = random.choice([x for x in DOT_COLORS if ManimColor(x) != c])
             for i in [0, 2, 4]:
-                c = hex_dots.dots[i].get_color()
-                hex_dots.dots[i].set_color(
-                    random.choice([x for x in DOT_COLORS if ManimColor(x) != c])
-                )
+                hex_dots.dots[i].set_color(new_c)
             self.wait(0.3)
 
         hex_dots.set_coloring([DOT_RED, DOT_BLUE, DOT_RED, DOT_BLUE, DOT_RED, DOT_BLUE])
@@ -227,11 +235,10 @@ class Sc9(Scene):
 
         # рандомный цикл 2
         for _ in range(5):
+            c = hex_dots.dots[1].get_color()
+            new_c = random.choice([x for x in DOT_COLORS if ManimColor(x) != c])
             for i in [1, 3, 5]:
-                c = hex_dots.dots[i].get_color()
-                hex_dots.dots[i].set_color(
-                    random.choice([x for x in DOT_COLORS if ManimColor(x) != c])
-                )
+                hex_dots.dots[i].set_color(new_c)
             self.wait(0.3)
 
         self.wait(1)
@@ -305,4 +312,4 @@ class Sc9(Scene):
 
         self.wait(2)
 
-        self.clear()
+        self.play(*[FadeOut(mob) for mob in self.mobjects])

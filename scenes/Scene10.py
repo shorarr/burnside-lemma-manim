@@ -195,13 +195,9 @@ class Sc10(Scene):
         def recolor_pair(i, j):
             for _ in range(5):
                 ci = hex_dots.dots[i].get_color()
-                hex_dots.dots[i].set_color(
-                    random.choice([x for x in DOT_COLORS if ManimColor(x) != ci])
-                )
-                cj = hex_dots.dots[j].get_color()
-                hex_dots.dots[j].set_color(
-                    random.choice([x for x in DOT_COLORS if ManimColor(x) != cj])
-                )
+                c_new = random.choice([x for x in DOT_COLORS if ManimColor(x) != ci])
+                hex_dots.dots[i].set_color(c_new)
+                hex_dots.dots[j].set_color(c_new)
 
                 self.wait(0.3)
 

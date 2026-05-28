@@ -28,7 +28,7 @@ class Sc1(Scene):
         self.wait(1)
 
         # Шестиугольник с точками
-        hex_dots = HexDots()
+        hex_dots = HexDots(dot_colors=DOT_COLORS, radius=HEX_RADIUS, dot_radius=DOT_RADIUS)
 
         self.play(Create(hex_dots), run_time=1.0)
         self.wait(1)
@@ -46,6 +46,7 @@ class Sc1(Scene):
         for _ in range(8):
             self.play(hex_dots.animate.random_coloring(), run_time=0.01)
             self.wait(0.25)
+        hex_dots.set_coloring([DOT_RED, DOT_BLUE, DOT_GREEN, DOT_RED, DOT_BLUE, DOT_GREEN])
 
         self.wait(2)
         self.play(FadeOut(title))
@@ -54,19 +55,25 @@ class Sc1(Scene):
         )
 
         # Подпись цветов
-        colors_text = MathTex(
+        colors_text1 = MathTex(
+            r"C = \{red, green, blue\}",
+            font_size=36
+        ).next_to(hex_dots, DOWN, buff=0.8)
+
+        colors_text2 = MathTex(
             r"C = \{r, g, b\}",
             font_size=36
         ).next_to(hex_dots, DOWN, buff=0.8)
 
-        self.play(Write(colors_text))
+        self.play(Write(colors_text1))
         self.wait(1)
+        self.play(FadeTransform(colors_text1, colors_text2))
 
         # |C| = 3
         card_text = MathTex(
             r"|C| = 3",
             font_size=48
-        ).next_to(colors_text, DOWN, buff=0.6)
+        ).next_to(colors_text1, DOWN, buff=0.6)
 
         self.play(Write(card_text))
         self.wait(1)

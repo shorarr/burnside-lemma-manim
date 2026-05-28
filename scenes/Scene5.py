@@ -19,64 +19,6 @@ class Sc5(Scene):
         self.play(Write(title))
         self.wait(0.5)
 
-        # Определение
-        definition = Text(
-            "Композиция — это фундаментальная операция,\n"
-            "определяющая структуру группы, при которой к двум элементам\n"
-            "применяется правило, возвращающее третий элемент той же группы",
-            font_size=32,
-            t2w={"Композиция": BOLD}
-        )
-
-        definition.set_width(config.frame_width - 2)
-        definition.move_to(ORIGIN)
-
-        self.play(FadeIn(definition))
-        self.wait(4)
-        self.play(FadeOut(definition))
-
-        # Первая формула
-        formula = MathTex(r"\tau \cdot \tau = \tau^2")
-        formula.scale(1.2)
-        new_formula = MathTex(r"\tau \tau = \tau^2")
-        new_formula.scale(1.2)
-        new_formula.move_to(formula)
-
-        formula.next_to(title, DOWN, buff=1)
-
-        self.play(Write(formula))
-        self.wait(1)
-
-        # пояснение
-        explanation = Text(
-            "(поворот на 60° + поворот на 60° = поворот на 120°)",
-            font_size=28
-        )
-
-        explanation.next_to(formula, DOWN, buff=0.5)
-
-        self.play(Write(explanation))
-        self.wait(2)
-
-        self.play(
-            FadeOut(title),
-            FadeOut(explanation),
-            formula.animate.scale(1.5).move_to(ORIGIN),
-            #Transform(formula, new_formula, run_time=2)
-        )
-
-        self.wait(0.5)
-
-        caption = Text('Стандартная запись композиции', font_size=24)
-        caption.next_to(formula, DOWN, buff=0.4)
-        self.play(Write(caption))
-        self.wait(2)
-
-        self.play(*[FadeOut(mob) for mob in self.mobjects])
-
-
-        ##################### Часть 2 #####################
-
         tau_formula = MathTex(r"\tau = (123456)")
         tau_formula.move_to(ORIGIN)
         tau_formula.shift(UP * 2)
@@ -166,18 +108,91 @@ class Sc5(Scene):
             )
         self.wait(1)
 
+        cycle1 = Text(
+            "1 цикл длины 6",
+            font_size=40
+        ).to_edge(UP, buff=1.5)
+
+        cycle2 = Text(
+            "Каждая вершина (бусина) переходит в следующую по порядку",
+            font_size=32
+        ).to_edge(DOWN, buff=1.5)
+
+        self.play(Write(cycle1))
+        self.wait(1)
+        self.play(Write(cycle2))
+        self.wait(2)
+
+        self.play(
+            *[FadeOut(mob) for mob in self.mobjects],
+        )
+
+        ##########################
+
+        # Определение
+        definition = Text(
+            "Композиция — это фундаментальная операция,\n"
+            "определяющая структуру группы, при которой к двум элементам\n"
+            "применяется правило, возвращающее третий элемент той же группы",
+            font_size=32,
+            t2w={"Композиция": BOLD}
+        )
+
+        definition.set_width(config.frame_width - 2)
+        definition.move_to(ORIGIN)
+
+        self.play(FadeIn(definition))
+        self.wait(4)
+        self.play(FadeOut(definition))
+
+        # Первая формула
+        formula = MathTex(r"\tau \cdot \tau = \tau^2")
+        formula.scale(1.2)
+        new_formula = MathTex(r"\tau \tau = \tau^2")
+        new_formula.scale(1.2)
+        new_formula.move_to(formula)
+
+        formula.next_to(title, DOWN, buff=1)
+
+        self.play(Write(formula))
+        self.wait(1)
+
+        # пояснение
+        explanation = Text(
+            "(поворот на 60° + поворот на 60° = поворот на 120°)",
+            font_size=28
+        )
+
+        explanation.next_to(formula, DOWN, buff=0.5)
+
+        self.play(Write(explanation))
+        self.wait(2)
+
+        self.play(
+            FadeOut(explanation),
+            formula.animate.scale(1.5).move_to(ORIGIN),
+            # Transform(formula, new_formula, run_time=2)
+        )
+
+        self.wait(0.5)
+
+        caption = Text('Стандартная запись композиции', font_size=24)
+        caption.next_to(formula, DOWN, buff=0.4)
+        self.play(Write(caption))
+        self.wait(2)
+
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        ##########################
+
         text_again = Paragraph(
             "Ещё раз воздействуем элементом τ \n"
-            "(поворот на 60)",
+            "(поворот на 60°)",
             font_size=26
         ).to_edge(LEFT, buff=0.8)
 
         tau_formula = MathTex(r"\tau = (1\;2\;3\;4\;5\;6)", font_size=60)
         tau_formula.next_to(text_again, UP, buff=0.8).align_to(text_again, LEFT)
 
-        self.play(
-            *[FadeOut(mob) for mob in self.mobjects],
-        )
         self.play(Write(tau_formula))
         self.wait(0.5)
 
@@ -220,9 +235,9 @@ class Sc5(Scene):
 
         # MathTex с отдельными индексами, чтобы можно было адресовать цифры
         tau2_formula = MathTex(
-            r"\tau^2 = (",
+            r"\tau^2 = ",
             "1", r"\,", "2", r"\,", "3", r"\,", "4", r"\,", "5", r"\,", "6",
-            r")", font_size=60
+            r"", font_size=60
         )
         digit_idx = {1: 1, 2: 3, 3: 5, 4: 7, 5: 9, 6: 11}
 
@@ -233,7 +248,7 @@ class Sc5(Scene):
 
         # Стрелки сверху
         arrows_top = VGroup()
-        top_pairs = [(1, 3), (2, 4), (3, 5)]
+        top_pairs = [(1, 3), (2, 4), (3, 5), (4, 6)]
         for a, b in top_pairs:
             arrows_top.add(
                 CurvedArrow(

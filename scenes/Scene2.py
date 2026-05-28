@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from config import *
-from objects.hexdots import HexDots
+from my_manim_plugins import HexDots
 from objects.axis import main_axis
 
 class Sc2(Scene):
@@ -12,7 +12,7 @@ class Sc2(Scene):
     def construct(self):
         # надпись сверху
         title = Text(
-            'Что значит "различные" раскраски?',
+            'Что значит "различные" и "одинаковые" раскраски?',
             font_size=36
         ).to_edge(UP)
 
@@ -20,10 +20,13 @@ class Sc2(Scene):
         self.wait(1)
 
         # шестиугольник
-        colors=[DOT_RED, DOT_RED, DOT_BLUE, DOT_RED, DOT_RED, DOT_BLUE]
+        colors1 = [DOT_RED, DOT_BLUE, DOT_RED, DOT_RED, DOT_RED, DOT_RED]
+        colors2 = [DOT_BLUE, DOT_RED, DOT_RED, DOT_RED, DOT_RED, DOT_RED]
 
-        hex_left = HexDots(colors)
-        hex_right = HexDots(colors)
+        hex_left = HexDots(dot_colors=DOT_COLORS, radius=HEX_RADIUS, dot_radius=DOT_RADIUS)
+        hex_right = HexDots(dot_colors=DOT_COLORS, radius=HEX_RADIUS, dot_radius=DOT_RADIUS)
+        hex_left.set_coloring(colors1)
+        hex_right.set_coloring(colors2)
 
         hex_left.shift(LEFT * 3)
         hex_right.shift(RIGHT * 3)
@@ -36,7 +39,7 @@ class Sc2(Scene):
         self.wait(1)
 
         self.play(
-            Rotate(hex_right, -PI),
+            Rotate(hex_right, -PI/3),
             run_time=2
         )
 
@@ -44,13 +47,17 @@ class Sc2(Scene):
 
         # Текст снизу
         text_equal = Text(
-            "Эти две раскраски считаются одинаковыми",
+            "Одинаковые раскраски",
             font_size=36
         ).to_edge(DOWN)
 
         self.play(AddTextLetterByLetter(text_equal), run_time=1)
 
         self.wait(1)
+        self.play(
+            Rotate(hex_right, PI / 3),
+            run_time=0.5
+        )
         self.play(FadeOut(text_equal))
 
         # Отражение относительно оси
@@ -60,31 +67,39 @@ class Sc2(Scene):
         axis.move_to(hex_right)
 
         self.play(Create(axis))
-        reflected = hex_right.copy().flip(UP)
 
         self.play(
-            Transform(hex_right, reflected),
+            hex_right.animate.flip(axis=axis.get_unit_vector()),
             run_time=1
         )
 
         self.wait(1)
 
         text_equal2 = Text(
-            "Эти две раскраски тоже считаются одинаковыми",
+            "Одинаковые раскраски",
             font_size=36
         ).to_edge(DOWN)
+        self.wait(1)
+        self.play(
+            hex_right.animate.flip(axis=axis.get_unit_vector()),
+            run_time=0.5
+        )
 
         self.play(AddTextLetterByLetter(text_equal2), run_time=1)
 
-        self.wait(1)
+
         self.play(FadeOut(axis),FadeOut(text_equal2))
-        self.play(
-            Rotate(hex_right, -PI/3),
-            run_time=2
-        )
+        hex_right.set_coloring([DOT_BLUE, DOT_BLUE, DOT_RED, DOT_RED, DOT_RED, DOT_RED])
+
+        for _ in range(6):
+            self.play(
+                Rotate(hex_right, -PI/3),
+                run_time=0.5
+            )
+            self.wait(0.5)
 
         text_equal3 = Text(
-            "А эти две - нет",
+            "А эти две - различные",
             font_size=36
         ).to_edge(DOWN)
 

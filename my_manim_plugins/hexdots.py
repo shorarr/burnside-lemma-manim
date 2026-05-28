@@ -174,8 +174,8 @@ class HexDots(VGroup):
                 yield list(canon)
 
     # Rotation and reflection
-    def animate_rotation(self, angle=PI/3, run_time=2):
-        return Rotate(self, angle=angle, run_time=run_time)
+    #def animate_rotation(self, angle=PI/3, run_time=2):
+        #return Rotate(self, angle=angle, run_time=run_time)
 
-    def animate_reflection(self, run_time=2):
-        return ApplyMethod(self.flip, RIGHT, run_time=run_time)
+    #def animate_reflection(self, run_time=2):
+        #return ApplyMethod(self.flip, RIGHT, run_time=run_time)
